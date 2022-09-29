@@ -508,4 +508,4 @@ fix된 배열에 새로운 내용을 추가할 시 새로운 배열을 만들어
  자료형 배열이름[] = new 자료형[개수]
  int arr[] = new int[10]
 
-<img src="./array.jpg/"  width="700" height="370">
+<img src="./image/array.jpg/"  width="700" height="370">
