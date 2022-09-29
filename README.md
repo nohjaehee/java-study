@@ -179,3 +179,305 @@ private 접근제어자
 클래스의 외부에서 클래스 내부의 멤버변수나 메서드에 접근하지 못하게 하는 경우 사용.
 
 하나의 파일안에는 클래스가 여러개일 수 있다.
+---------------------------------------------------------------------------------------
+# Doit java -클래스와 객체2(1)
+
+this -자신의 메모리를 가리킴, 생성자에서 다른 생성자를 호출, 자신의 주소를 반환함
+ 
+ ex) 
+
+class BirthDay{
+   int day;
+   int month;
+   int year;
+}
+
+public void setYear(int year){
+   this.year = year
+   멤버변수year   매개변수 year 를 가리킴
+
+}
+public void printThis(){
+   System.out.println(this);
+}
+
+public class ThisExample{
+    public static void main(Stirng[] args){
+    BirthDay b1 =  new BirthDay();
+    BirthDay b2 =  new BirthDay();
+
+     System.out.println(b1);
+     b1.printThis();
+
+     //출력물
+     //thisex.Birthday@311d617d
+     //thisex.Birthday@311d617d
+
+     System.out.println(b2);
+     b2.printThis();
+
+     //출력물
+     //thisex.Birthday@7c53a9eb
+     //thisex.Birthday@7c53a9eb
+
+ }
+}
+
+###생성자에서 다른 생성자를 호출하는 this
+ class person{
+   String name;
+   int age;
+
+   public Person(){
+      this("이름없음", 1);
+      // 아래에 만든 생성자를 불러 사용하는 것. 
+   }
+   public person(Stirn name, int age){
+      this.name = name;
+      this.age = age;
+   }
+   
+   public Person returnSelf(){
+      retuen this;
+   }
+}
+public class ThisExCallAnotherConat{
+    public static void main(Stirng[] args){
+    
+    Person p1 =  new Person();
+    System.out.println(p1.name);
+      //출력물
+     //이름없음
+   System.out.println(p1.returnSelf);
+
+     //출력물
+     //thisex.Person@16d65612
+
+ 
+ }
+}
+----------------------------------------------------------------------
+# Doit java -클래스와 객체2(2)
+
+객체간의 협력
+
+메서드 
+승차
+정보
+
+학생
+-학생이름
+-돈
+-학년
+
+public class Student {
+	
+	String studentName;
+	int money;
+	
+	public Student(String studentName,int money) {
+		this.studentName = studentName;
+		this.money = money;
+	}
+	
+	public void takeBus(Bus bus) {
+		bus.take(1000);
+		this.money -= 1000;
+	}
+	
+	public void takeSubway(Subway subway) {
+		subway.take(1200);
+		this.money -= 1200;
+	}
+	
+	public void takeTaxi(Taxi taxi) {
+		taxi.take(10000);
+		this.money -= 10000;
+	}
+	
+	public void showInfo() {
+		System.out.println(studentName + "님의 남은 돈은 " + money + "원 입니다.");
+	}
+
+}
+
+버스
+-번스번호
+-승객 수
+-돈
+
+public class Bus {
+	
+	int busNumber;
+	int passengerCount;
+	int money;
+	
+	public Bus(int busNumber) {
+		this.busNumber = busNumber;
+	}
+	
+	public void take(int money) {
+		this.money += money;
+		passengerCount++;
+		
+	}
+	
+	public void showBusInfo() {
+		System.out.println(busNumber + "번의 승객수는 " + passengerCount + "명 이고, 수입은 " +  money + "원 입니다." );
+	}
+}
+
+
+지하철
+-지하철 노선번호
+-승객 수
+-돈
+
+public class Subway {
+	
+	int lineNumber;
+	int passengerCount;
+	int money;
+	
+	public Subway(int lineNumber) {
+		this.lineNumber = lineNumber;
+	}
+	
+	public void take(int money) {
+		this.money += money;
+		passengerCount++;
+		
+	}
+	
+	public void showSubwayInfo() {
+		System.out.println(lineNumber + "번의 승객수는 " + passengerCount + "명 이고, 수입은 " +  money + "원 입니다." );
+	}
+}
+
+
+public class takeTransTest {
+
+	public   void main(String[] args) {
+		
+		Student  studentJ = new Student("james", 5000);
+		Student  studentT = new Student("Tomas", 10000);
+		
+		Bus bus100 = new Bus(100);
+		Bus bus500 = new Bus(500);	
+		studentJ.takeBus(bus100);
+		
+		Subway greenSubway = new Subway(2);
+		studentT.takeSubway(greenSubway);
+		
+
+		studentJ.showInfo();
+		studentT.showInfo();
+		
+		
+		bus100.showBusInfo();
+		greenSubway.showSubwayInfo();
+	
+		
+	
+	}
+
+}
+--------------------------------------------------------------------
+# Doit java -클래스와 객체2(3)
+
+static 변수
+
+static int seralNum
+sttic  자료형  변수이름
+sttic  --> 여러개의 인스턴스가 같은 메모리의 값을 공유하기 위해 사용
+
+student -> new 예약어로  힙메모리에 인스턴스 생성
+Static-> 공유되는 메모리는 따로 사용한다. 
+         즉,전체프로그램이 메모리에 load 될때 할당받는다.
+         상수, 리터럴, static 변수등이 이 메모리를 사용한다.
+
+static 변수는 클래스변수라고도 함.
+
+ex)
+기준되는 숫자에 +를하여 각 학번을 부여할 수 있다. == static 변수로 사용
+A학생 10001학번
+
+B학생 10002학번
+
+public class Student{
+   static inr serialNum = 10000;
+   int StudetnId;
+   String studentName;
+
+   public Student(){
+      serialNum ++;
+      StudetnId = serialNum;
+   }
+}
+
+public class StudentTest1 {
+
+	public  static void main(String[] args) {
+		
+		Student  studentJ = new Student();
+      System.out.println(studentJ.studentId);
+
+		Student  studentT = new Student();
+      System.out.println(studentJ.studentId);
+	
+      //c출력값
+      //10001
+      //10002
+	
+	}
+
+}
+
+### 지역변수
+함수 내부에 선언하며 함수 내부에서만 사용한다. 
+스택 메모리에 형성되며, 함수가 호출될떄 생성되고 함수가 끝나면 소멸한다.
+
+### 멤버변수(인스턴스 변수)
+클래스 멤버변수로 선언한다.
+클래스 내부에서만 사용하고 private이 아니면 참조변수로 다른 클래스에서 사용 가능하다.
+힙 메모리에 형성되며, 인스턴스가 생서될때 힙에 생성되고, 가비지 컬럭터가 메모리를 수거할때 소멸한다.
+
+### static 변수 (클래스변수)
+static 예약어를 사용하여 클래스 내부에 선언한다.
+클래스 내부에서만 사용하고 private이 아니면 클래스 이름으로 다른 클래스에서 사용 가능하낟.
+데이터 영역 메모리에 형성된다.
+프로그램이 처음 시작할때 상수와 함께 데이터 영역에 생성되고 프로그램이 끝나고 메모리를 해제할 때 소멸된다.
+------------------------------------------------------
+#  Doit java -클래스와 객체2(4)
+
+static 응용 : singleton 패턴
+전 시스템에 단 하나의 인스턴스만이 존재하도록 구현하는 방식
+
+public class Companey{
+   private static Company instance = new company(); // 인스턴스는 단 1개로 생성이 되었고, 이 내부에서만 사용할 수 있다
+
+   private Company(){} // 외부에서 다른 생서자를 함부로 생성 할 수 없게끔 private  기본 생성자를 지정
+
+   public static Company geyInstance(){ //외부에서 가져다 쓸 수 있도록 해쥼
+      return instance;
+   }
+}
+
+
+public class CompaneyTest{
+
+   public Static void main(Stirng[] args){
+      Company c1 = Company.geyInstance();
+
+      Company c2 = Company.geyInstance();
+      
+      System.out.println(c1);
+     //출력물
+     //singleton.Company@311d617d
+     System.out.println(c2);
+     //출력물
+     //singleton.Company@311d617d
+
+     
+   }
+}
